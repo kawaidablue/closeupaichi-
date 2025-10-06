@@ -1,0 +1,191 @@
+@charset "UTF-8";
+.top-wrap {
+    padding-top:80px;
+    display:flex;
+    background-color: rgb(136, 136, 136);
+    height:100%;
+}
+.top-wrap__left {
+    width:50%;
+    height:700px;
+    background-image: url(../img/person.png);
+    background-size: cover;
+    background-position: center;
+    position:relative;
+}
+.top-wrap__left__title {
+    position:absolute;
+    left:5%;
+    bottom:16%;
+}
+.top-wrap__left__title p{
+    background-color: black;
+    font-size:46px;
+}
+.top-wrap__left__title2 {
+    position:absolute;
+    left:5%;
+    bottom:5%;
+}
+.top-wrap__left__title2 p{
+    background-color: black;
+    font-size:46px;
+}
+.top-wrap__right {
+    position: relative;
+    width:50%;
+    background-color: black;
+}
+.top-wrap__right__txt {
+    position: absolute;
+    color:#fff;
+    font-size:16px;
+    line-height: 1.8;
+    letter-spacing: 1px;
+    word-break: break-all;
+    top:20%;
+    left:10%;
+}
+.top-wrap__right__txt__enname {
+    font-family: "Bebas Neue", sans-serif;
+    font-size:54px;
+    color:#DB1517;
+}
+.top-wrap__right__txt__enname p{
+    font-weight:lighter;
+}
+.top-wrap__right__txt__jpname {
+    font-size:25px;
+}
+.top-wrap__right__txt__job {
+    font-size:14px;
+}
+.top-wrap__right__txt__writing {
+    margin-top:20px;
+    font-size:16px; 
+    line-height: 2;
+}
+.top-wrap__right__flag {
+    font-family: "Bebas Neue", sans-serif;
+    background-color: #DB1517;
+    width:110px;
+    height:170px;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right:0;
+    line-height: 0.78;
+}
+.top-wrap__right__flag__top {
+    font-size:26px;
+}
+.top-wrap__right__flag__middle {
+    font-size:47px;
+}
+.top-wrap__right__flag__under {
+    font-size:100px;
+}
+.about-wrap {
+    margin:100px 0;
+}
+.about-wrap__body__title {
+    position: relative;  
+    font-size:36px;
+    text-align: left;   /* テキストを左寄せ */
+  margin-right: auto; /* 必要に応じて左端に寄せる */
+    margin-bottom:40px;
+}
+.about-wrap__body__title:before {
+    content: "";                 /* ← これがないと何も描画されない */
+  position: absolute;
+  left: -18%;                     /* 位置 */
+  top: 66%;
+  transform: translateY(-50%); /* 縦中央合わせ（任意） */
+  width: 50px;
+  height: 80px;
+  background:linear-gradient(90deg,#DB1517, #AD0002);
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, 50% 80%, 0 100%);
+  z-index: -1;
+}
+.about-wrap__body__title2 {
+    position: relative;  
+    font-size:36px;
+    text-align: left;   /* テキストを左寄せ */
+  margin-right: auto; /* 必要に応じて左端に寄せる */
+    margin-bottom:40px;
+}
+.about-wrap__body__title2:before {
+    content: "";                 /* ← これがないと何も描画されない */
+  position: absolute;
+  left: -18%;                     /* 位置 */
+  top: 66%;
+  transform: translateY(-50%); /* 縦中央合わせ（任意） */
+  width: 50px;
+  height: 80px;
+  background:linear-gradient(90deg,#DB1517, #AD0002);
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, 50% 80%, 0 100%);
+  z-index: -1;
+}
+.about-wrap__body {
+    display: flex;
+    flex-direction: column;   /* 縦に積む */
+    align-items: center;    /* 横（交差軸）を右寄せ */
+    max-width:1100px;
+    margin: 0 auto;
+}
+.about-wrap__body__block {
+    width: 100%;
+    display: flex;
+    justify-content: center;  /* 行方向の終端＝右側へ */
+    gap: 40px;
+    flex-direction: row-reverse;
+    margin: 0 auto;
+}
+.about-wrap__body__block2 {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;  /* 行方向の終端＝右側へ */
+    gap: 40px;
+}
+.about-wrap__body__block__right__txt {
+    font-size:18px;
+    line-height: 1.8;
+    letter-spacing: 1px;
+    word-break: break-all;
+    font-weight: 500;
+}
+.about-wrap__img {
+    width:100%;
+    height:600px;
+    background-image: url(../img/personimg.png);
+    background-size: cover;
+    margin:120px 0;
+}
+.about-wrap__body__txtonly  {
+    font-size:18px;
+    line-height: 1.8;
+    letter-spacing: 1px;
+    word-break: break-all;
+    font-weight: 500;
+    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    margin-left:0;
+}
+.about-wrap__body1 {
+    display: flex;
+    flex-direction: column;
+        align-items: center;
+        max-width: 1100px;
+        margin: 0 auto;
+        margin-bottom: 100px;
+}
+  .about-wrap__body__title2 {
+    font-size: 36px;
+    text-align: left;
+    margin-right: auto;
+    margin-bottom: 40px;
+}

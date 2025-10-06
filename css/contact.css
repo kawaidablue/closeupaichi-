@@ -1,0 +1,173 @@
+@charset "UTF-8";
+.contact-wrap {
+    width: 100%;
+    margin: 80px auto;
+}
+.contact-wrap__title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    padding:50px 0;
+}
+.contact-wrap__form {
+    max-width: 600px;
+    margin: 80px auto;
+    box-sizing: border-box;
+    color: #fff;
+    align-items: center;
+}
+.contact-wrap__form__group {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    align-items: flex-start;
+    gap: 30px 10px;
+    margin-bottom: 25px;
+  }
+  
+  /* ラベルと必須バッジ */
+  .contact-wrap__form__group > label {
+    display: flex;
+    justify-content: space-between; /* 左テキスト／右必須 */
+    align-items: center;
+  }
+  .contact-wrap__form__group .required {
+    display: flex;
+    font-size: 12px;
+    color: #fff;
+    background: #e6002d;   /* テーマ赤 */
+    padding: 2px 6px;
+    margin-left: 10px;
+}
+  
+  /* 入力系（共通） */
+  .contact-wrap__form input[type="text"],
+  .contact-wrap__form input[type="email"],
+  .contact-wrap__form textarea {
+    width: 100%;
+    max-width: 400px;             /* スクショの横幅感に寄せる */
+    background: #fff;
+    color: #111;
+    border: none;
+    border-radius: 8px;
+    padding: 18px 14px;
+    line-height: 1.6;
+    box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset,
+                0 2px 10px rgba(0,0,0,.15);
+    outline: none;
+    box-sizing: border-box;
+  }
+  .contact-wrap__form input::placeholder,
+  .contact-wrap__form textarea::placeholder {
+    color: #aaa;   /* 薄グレーで見やすく */
+  }
+  
+  
+  /* テキストエリアをそれっぽく */
+  .contact-wrap__form textarea {
+    min-height: 180px;
+    resize: vertical;
+  }
+  
+  /* 同意チェックなど横並びにしたい時のユーティリティ（必要なときに使う） */
+  .contact-wrap__form .is-inline {
+    grid-column: 1 / -1; /* 2カラムをまたぐ */
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #ddd;
+    font-size: 13px;
+  }
+  
+  /* 送信ボタン（中央・角丸・白枠） */
+  .contact-wrap__form__submit {
+    font-size:24px;
+    display: block;     /* inline-block ではなく block に */
+  margin: 60px auto 40px auto;  /* 左右自動で中央寄せ */
+  min-width: 300px;
+  padding: 16px 28px;
+  border-radius: 999px;
+  background: #111;
+  color: #fff;
+  font-weight: 700;
+  border: 2px solid #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,.35);
+  cursor: pointer;
+  transition: transform .08s ease, box-shadow .2s ease, opacity .2s ease;
+  }
+  .contact-wrap__form__submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 26px rgba(0,0,0,.45);
+  }
+  .contact-wrap__form__submit:active {
+    transform: translateY(0);
+    opacity: .9;
+  }
+/* 個人情報保護方針の行だけ整える */
+/* 通常のフォームは grid */
+.contact-wrap__form__group {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 30px 10px;
+    margin-bottom: 25px;
+}
+
+/* チェックボックス専用 */
+.check-group {
+    display: flex; /* grid じゃなくて flex */
+    align-items: center;
+    gap: 8px;
+}
+
+  .contact-wrap__form__group label {
+    min-width: 205px; /* 左のラベル幅を固定 */
+  } 
+  input[type="checkbox" i] {
+    background-color: initial;
+    cursor: default;
+    appearance: auto;
+    box-sizing: border-box;
+    margin: 3px 3px 3px 4px;
+    padding: initial;
+    border: initial;
+}
+@media screen and (max-width: 600px) {
+    .contact-wrap__form {
+        max-width: 85%;
+        margin: 60px auto;
+    }
+    contact-wrap__form input[type="text"], .contact-wrap__form input[type="email"], .contact-wrap__form textarea {
+        max-width: none;
+    }
+    .contact-wrap__form input[type="text"], .contact-wrap__form input[type="email"], .contact-wrap__form textarea {
+        max-width: none;
+    }
+    .contact-wrap__form__group {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+    
+      .check-group {
+        flex-direction: column;  /* ← スマホでは縦並び */
+        align-items: flex-start;
+      }
+    /* 全て1カラム化 */
+    .contact-wrap__form__group {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  
+    /* チェックボックスも縦並びに */
+    .check-group {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .check-group label {
+      min-width: auto;
+      margin-bottom: 6px;
+    }
+  
+    .contact-wrap__form__submit {
+      width: min(100%, 360px);
+    }
+  }

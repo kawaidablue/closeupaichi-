@@ -1,0 +1,1210 @@
+@charset "UTF-8";
+/* すべてのマスを正方形に：列も行も “--cell” に固定 */
+.top-grid {
+    margin-top: 80px;
+  
+    /* ノブ */
+    --cols: 12;
+    --rows: 6;  /* ← このレイアウトで使う行数に合わせる（いまは6） */
+    --gap: 0;
+  
+    /* 1セルの一辺（コンテナ幅基準） */
+    --cell: calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
+  
+    display: grid;
+    grid-template-columns: repeat(var(--cols), var(--cell));
+    grid-template-rows:    repeat(var(--rows), var(--cell));   /* ← 明示行に */
+    gap: var(--gap);
+  }
+/* 画像タイルの共通 */
+.top-grid__tile {
+    width:100%;
+    height:100%;
+    min-width: 0;       /* ← Gridの“最小内容サイズ”の主張を無効化 */
+    min-height: 0;
+    overflow: hidden;   /* ← はみ出しても行の高さは増やさない */
+    object-fit: cover;
+    display:block;
+}
+  /* 置き場所（まずは“近い形”に） */
+.left1{ grid-column: 1 / span 2; grid-row: 1 / span 2; }
+.left2{ grid-column: 1 / span 2; grid-row: 3 / span 2; }
+.left3{ grid-column: 1 / span 2; grid-row: 5 / span 2; }
+
+.top1 { grid-column: 3 / span 2; grid-row: 1 / span 2; }
+.top2 { grid-column: 5 / span 2; grid-row: 1 / span 2; }
+.top3 { grid-column: 7 / span 2; grid-row: 1 / span 2; }
+.top4 { grid-column: 9 / span 2; grid-row: 1 / span 2; }
+.red{
+    grid-column: 3 / span 4; 
+    grid-row: 3 / span 4;
+    background:#d81f26; color:#fff;
+    display:grid; 
+    flex-direction:column; 
+    justify-content:center;
+}
+.black{
+    grid-column: 7 / span 4; 
+    grid-row: 3 / span 4;
+    background:#000; color:#fff;
+    display:grid; 
+    flex-direction:column; 
+    justify-content:center;
+}
+.right1{ 
+    grid-column: 11 / span 2; grid-row: 1 / span 2; 
+}
+.right2{ 
+    grid-column: 11 / span 2; grid-row: 3 / span 2; 
+}
+.right3 {
+    grid-column: 11 / span 2; grid-row: 5 / span 2;
+}
+
+/* slider*/
+.slider{ background-color:#333; }
+.slider-wrap{
+  width:95%;
+  margin:0 auto;
+  padding:40px 0;
+  overflow:hidden;            /* はみ出し非表示 */
+}
+
+/* variableWidth用：各アイテムの表示幅と間隔をCSSで決める */
+.slider-wrap__img{
+  width:150px;   /* 等間隔の“箱”サイズ */
+  margin-right: clamp(12px, 2.5vw, 24px);
+}
+.slider-wrap__img img{
+  display:block;              /* 画像下の隙間対策 */
+  width:100%;
+  height:auto;
+}
+/* 中身：3行1列（1: 見出し / 2: 線=高さ0 / 3: 内容） */
+.top-grid .red,
+.top-grid .black{
+  display: grid;
+  grid-template-columns: 1fr;                     /* 1列固定 */  /* 1: .jp / 2: 線(0) / 3: 内容 */
+  justify-items: center;                          /* 水平中央 */
+  align-content: center;                           /* ← 3行ブロックを上に揃える（ここが肝） */
+  row-gap: 20px;                                  /* 行間（paddingは使わない） */
+}
+.red .jp{
+    font-weight: 500;
+    grid-row: 1;
+  margin: 0;
+  font-size:clamp(18px, 2.5vw, 40px);
+  line-height: 1.2;
+  text-align: center;
+}
+.black .jp{
+    font-weight: 500;
+    grid-row: 1;
+    margin: 0;
+    font-size: clamp(18px, 2.5vw, 40px);;
+    line-height: 1.2;
+    text-align: center; 
+}
+/* 行2：divider（要素は残してOK。高さ0で不可視） */
+.red .divider,
+.black .divider{
+  grid-row: 2;
+  height: var(--divider-h);  /* 0px で不可視 */
+  width: 0;
+  background: transparent;
+}
+
+/* 行3：内容 — 赤は任意、黒は下寄せのまま */
+.red .content{
+    grid-row: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;       /* ← 赤は下寄せのままでOK（好みで center に） */
+}
+
+.top-grid .black{
+  /* 黒は3行目を余り全部にしておく（下に押し付けやすい） */
+    grid-template-rows: auto var(--divider-h) 1fr;
+}
+.black .content{
+  grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:center;  /* ← 30 を下に */
+  min-height: 0;
+}
+
+/* タイポ（そのまま流用） */
+.red .en{ 
+    font-weight:300;
+    text-align:center;
+    font-size: clamp(64px, 8.264vw, 140px);
+    line-height:0.8; margin:0; }
+.red .en .big{
+    font-size: clamp(120px, 14.931vw, 260px);
+ }
+.red .sub{  font-size: clamp(14px, 1.806vw, 28px);  }
+.black .num{ 
+    padding-top:30px;
+    font-family:"Bebas Neue",sans-serif; font-size: clamp(260px, 29.236vw, 520px); line-height:.63; margin:0; text-align:center; }
+
+/*about-section */
+.about-wrap {
+    background-image:url(../img/aboutbg.png);
+    background-size:cover;
+    background-position: bottom;
+    padding:50px 0;
+    display:flex;
+    gap:80px;
+}
+.about-wrap__title {
+    width:45%; 
+    justify-content: flex-end;
+    align-items: center;
+    display: flex;
+    letter-spacing: 10px;
+}
+.about-wrap__title p {
+    font-family:"inter",sans-serif;
+    font-weight:100;
+    font-size:50px;
+}
+.about-wrap__title__30 {
+    padding:1% 2%;
+    border-top:3px solid;
+    border-right:3px solid;
+    border-bottom:3px solid;
+    border-left:3px solid;
+}
+.about-wrap__title__stories {
+    padding:1% 2%;
+    border-top:3px solid;
+    border-right:3px solid;
+    border-bottom:3px solid;
+}
+.about-wrap__item {
+    width:50%;
+}
+.about-wrap__item p{
+    font-family:"notosans",sans-serif;
+    font-size:18px;
+    line-height: 2.2;
+    letter-spacing: 9px;
+    font-weight:600;
+}
+.about-wrap__item .cred {
+    color:#d91619;
+    text-decoration:2px underline;
+    text-underline-offset: 4px;
+}
+
+/*voice*/
+.voice-wrap {
+    margin: 60px auto;
+}
+.voice-wrap__title{
+    position:relative;
+}
+.voice-wrap__title h1{
+position: absolute;
+  left: 0;           /* 左端に貼り付ける */
+  top: 0; bottom: 0; /* ＝親の上下いっぱい（高さ確保） */
+  writing-mode: vertical-rl; 
+  white-space: nowrap;
+  font-family: "Bebas Neue", sans-serif;
+  font-size:400px;
+  line-height: 1;
+  color:#353535;           
+  pointer-events:none; 
+  user-select:none;
+  z-index: -1;
+  opacity: 0.7;
+}
+.voice-wrap__groupright {
+    --left-w: clamp(72px, 12vw, 140px);
+    display: flex;
+    max-width:1280px;
+    justify-content: center;
+    margin: 0 auto;
+}
+.voice-wrap__groupright__right__head {
+    font-family: "Bebas Neue", sans-serif;
+    font-size:120px;
+}
+.voice-wrap__groupright__right__grid {
+    --cols: 20;
+    --rows: 18;
+    --cell-w: 30px;
+    --cell-h: 30px;
+    --gap: 14px;                /* 好みで */
+    display: grid;
+    grid-template-columns: repeat(var(--cols), var(--cell-w));
+    grid-template-rows:    repeat(var(--rows), var(--cell-h));
+    gap: var(--gap);
+    justify-content: start;     /* 左寄せ。中央にしたいなら center */
+    align-content: start;
+}
+.voice-wrap__groupright__right__grid__card-big{
+    position:relative;
+    width: 100%;
+    height: 100%;
+    grid-column: 1 / span 7; 
+    grid-row: 1 / span 11; 
+    overflow: hidden;
+    background: #000;
+    box-sizing: border-box;
+  }
+.voice-wrap__groupright__right__grid__card-big img {
+    width: 100%;
+    height:80%;
+    object-fit: cover;
+  }
+.voice-wrap__groupright__right__grid__card__allow{
+    position:absolute; 
+    right:16px; 
+    bottom:16px; 
+    z-index:2;
+    width:18px; 
+    height:18px; 
+    border-right:2px solid #d81f26; 
+    border-bottom:2px solid #d81f26;
+    transform: rotate(-45deg);
+}
+.voice-wrap__groupright__right__grid__card__name-en {
+    position:relative;
+    color: #DB1517;
+}
+.voice-wrap__groupright__right__grid__card__name-enbig {
+  position:relative;
+  color: #DB1517;
+}
+.voice-wrap__groupright__right__grid__card__name-en p {
+    font-size:54px;
+    font-weight:100;
+    font-family:"Bebas Neue",sans-serif;
+    position: absolute;
+    top:-70px;
+    left:20px;
+    line-height: 0.8;
+}
+.voice-wrap__groupright__right__grid__card__name-enbig p {
+  font-size:54px;
+  font-weight:100;
+  font-family:"Bebas Neue",sans-serif;
+  position: absolute;
+  top:-70px;
+  left:20px;
+  line-height: 0.8;
+}
+.voice-wrap__groupright__right__grid__card-small1{
+    grid-column: 8 / span 6; grid-row: 1 / span 9; 
+    position:relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    box-sizing: border-box;
+  }
+  .voice-wrap__groupright__right__grid__card-small1 img {
+    width: 100%;
+    height:75%;
+    object-fit: cover;
+  }
+  .voice-wrap__groupright__right__grid__card-small2{
+    grid-column: 14 / span 6; grid-row: 1 / span 9; 
+    position:relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    box-sizing: border-box;
+  }
+  .voice-wrap__groupright__right__grid__card-small2 img {
+    width: 100%;
+    height:75%;
+    object-fit: cover;
+  }
+  .voice-wrap__groupright__right__grid__card-small3{
+    grid-column: 14 / span 6; grid-row: 10 / span 9; 
+    position:relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    box-sizing: border-box;
+  }
+.voice-wrap__groupright__right__grid__card-small3 img {
+    width: 100%;
+    height:75%;
+    object-fit: cover;
+  }
+  .voice-wrap__groupright__right__grid__card-small4{
+    grid-column: 8 / span 6; 
+    grid-row: 10 / span 9; 
+    position:relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    box-sizing: border-box;
+}
+.voice-wrap__groupright__right__grid__card-small4 img {
+    width: 100%;
+    height:75%;
+    object-fit: cover;
+}
+.voice-wrap__groupright__right__grid__card__name-jp {
+    padding-left:20px;
+    padding-top:15px;
+    font-size:25px;
+}
+.voice-wrap__groupright__right__grid__card__job {
+    padding-left:20px;
+    font-size:13px;
+}
+.voice-wrap__groupright__left{
+    flex: 0 0 var(--left-w);
+    min-width: 0;
+  }
+  
+  /* 中身：スクロール時にチラ見せしたければ sticky */
+  .voice-wrap__groupright__left__item{
+    top: 16px;                 /* ヘッダーがfixedなら実高さに合わせて */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* 赤い番号リボン */
+  .voice-wrap__groupright__left__item__num{
+    position: relative;
+    display: inline-block;
+    background: #d81f26;
+    color: #fff;
+    padding:0 30px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 110px;
+    line-height: 1;
+    isolation: isolate;
+}
+.voice-wrap__groupright__left__item__group{
+    color: #fff;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 27px;
+    letter-spacing:10px;
+    text-align: center;
+    padding-left:12px;
+}
+.voice-wrap__groupright__left{
+    position: relative;
+}
+.voice-wrap__groupright__left__item__num::after{
+    content:"";
+    position: absolute;
+    right: 45px;         /* ← 右に出す */
+    bottom: -18px;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 60px solid #d81f26;
+    z-index: -1;
+}
+  
+  /* 左側の三角（奥側・反転） */
+  .voice-wrap__groupright__left__item__num::before{
+    content:"";
+    position: absolute;
+    left: 45px;         /* ← 右に出す */
+    bottom: -18px;
+    border-top: 20px solid transparent;
+    border-right: 60px solid #d81f26;
+    border-bottom: 20px solid transparent;
+    z-index: -1;
+  }
+  .voice-wrap__groupleft {
+    --left-w: clamp(72px, 12vw, 140px);
+    display: flex;
+    max-width:1280px;
+    justify-content: center;
+    margin: 40px auto 0 auto;
+    flex-direction: row-reverse;
+}
+.voice-wrap__groupleft__right__head {
+    font-family: "Bebas Neue", sans-serif;
+    font-size:120px;
+    text-align: right;
+}
+.voice-wrap__groupleft__right__grid {
+    --cols: 20;
+    --rows: 18;
+    --cell-w: 30px;
+    --cell-h: 30px;
+    --gap: 14px;                /* 好みで */
+    display: grid;
+    grid-template-columns: repeat(var(--cols), var(--cell-w));
+    grid-template-rows:    repeat(var(--rows), var(--cell-h));
+    gap: var(--gap);
+    justify-content: start;     /* 左寄せ。中央にしたいなら center */
+    align-content: start;
+}
+.voice-wrap__groupleft__right__grid__card-big{
+    position:relative;
+    width: 100%;
+    height: 100%;
+    grid-column: 14 / span 7; 
+    grid-row: 1 / span 11; 
+    overflow: hidden;
+    background: #000;
+    box-sizing: border-box;
+  }
+.voice-wrap__groupleft__right__grid__card-big img {
+    width: 100%;
+    height:80%;
+    object-fit: cover;
+  }
+  .dli-arrow-right {
+    display: inline-block;
+    vertical-align: middle;
+    color:#DB1517;
+    line-height: 1;
+    position: relative;
+    width: 0.8em;
+    height: 0.2em;
+    background: currentColor;
+    left: 190px;
+    bottom:28px;
+
+  }
+  
+  .dli-arrow-right::before {
+    content: '';
+    width: 0.65em;
+    height: 0.65em;
+    border: 0.2em solid currentColor;
+    border-left: 0;
+    border-bottom: 0;
+    transform: rotate(45deg);
+    transform-origin: top right;
+    position: absolute;
+    box-sizing: border-box;
+    top: 2px;
+    left:6px;
+
+  }
+.voice-wrap__groupleft__right__grid__card__name-enbig {
+    position:relative;
+    color: #DB1517;
+}
+.voice-wrap__groupleft__right__grid__card__name-en {
+  position:relative;
+  color: #DB1517;
+}
+.voice-wrap__groupleft__right__grid__card__name-en p {
+  font-size:36px;
+  font-weight:100;
+  font-family:"Bebas Neue",sans-serif;
+  position: absolute;
+  top:-45px;
+  left:20px;
+  line-height: 0.8;
+}
+.voice-wrap__groupleft__right__grid__card__name-enbig p {
+    font-size:54px;
+    font-weight:100;
+    font-family:"Bebas Neue",sans-serif;
+    position: absolute;
+    top:-70px;
+    left:20px;
+    line-height: 0.8;
+}
+.voice-wrap__groupleft__right__grid__card-small1{
+    grid-column: 2 / span 6; 
+    grid-row: 1 / span 9; 
+    position:relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    box-sizing: border-box;
+  }
+  .voice-wrap__groupleft__right__grid__card-small1 img {
+    width: 100%;
+    height:75%;
+    object-fit: cover;
+  }
+  .voice-wrap__groupleft__right__grid__card-small2{
+    grid-column: 8 / span 6; 
+    grid-row: 1 / span 9; 
+    position:relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    box-sizing: border-box;
+  }
+  .voice-wrap__groupleft__right__grid__card-small2 img {
+    width: 100%;
+    height:75%;
+    object-fit: cover;
+  }
+  .voice-wrap__groupleft__right__grid__card-small3{
+    grid-column: 8 / span 6; 
+    grid-row: 10 / span 9; 
+    position:relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    box-sizing: border-box;
+  }
+.voice-wrap__groupleft__right__grid__card-small3 img {
+    width: 100%;
+    height:75%;
+    object-fit: cover;
+  }
+  .voice-wrap__groupleft__right__grid__card-small4{
+    grid-column: 2 / span 6; 
+    grid-row: 10 / span 9; 
+    position:relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    box-sizing: border-box;
+}
+.voice-wrap__groupleft__right__grid__card-small4 img {
+    width: 100%;
+    height:75%;
+    object-fit: cover;
+}
+.voice-wrap__groupleft__right__grid__card__name-jp {
+    padding-left:20px;
+    padding-top:15px;
+    font-size:25px;
+}
+.voice-wrap__groupleft__right__grid__card__job {
+    padding-left:20px;
+    font-size:13px;
+}
+.voice-wrap__groupleft__left{
+    flex: 0 0 var(--left-w);
+    min-width: 0;
+  }
+  
+  /* 中身：スクロール時にチラ見せしたければ sticky */
+  .voice-wrap__groupleft__left__item{
+    top: 16px;                 /* ヘッダーがfixedなら実高さに合わせて */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* 赤い番号リボン */
+  .voice-wrap__groupleft__left__item__num{
+    position: relative;
+    display: inline-block;
+    background: #d81f26;
+    color: #fff;
+    padding:0 30px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 110px;
+    line-height: 1;
+    isolation: isolate;
+}
+.voice-wrap__groupleft__left__item__group{
+    color: #fff;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 27px;
+    letter-spacing:10px;
+    text-align: center;
+    padding-left:12px;
+}
+.voice-wrap__groupleft__left{
+    position: relative;
+}
+.voice-wrap__groupleft__left__item__num::after{
+    content:"";
+    position: absolute;
+    right: 45px;         /* ← 右に出す */
+    bottom: -18px;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left: 60px solid #d81f26;
+    z-index: -1;
+}
+  
+  /* 左側の三角（奥側・反転） */
+  .voice-wrap__groupleft__left__item__num::before{
+    content:"";
+    position: absolute;
+    left: 45px;         /* ← 右に出す */
+    bottom: -18px;
+    border-top: 20px solid transparent;
+    border-right: 60px solid #d81f26;
+    border-bottom: 20px solid transparent;
+    z-index: -1;
+  }
+/* movie */  
+
+section.movie {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%; 
+  height: 80vh;      /* 画面いっぱいにしたい場合 */
+  overflow: hidden;   /* 余白に見えるはみ出しを隠す */
+}
+#bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+.heart {
+    background-color: #fff;
+    color:#000;
+}
+.heart-wrap {
+  max-width:800px;
+  margin: 0 auto;
+}
+.heart-wrap__title {
+    font-family: "Bebas Neue", sans-serif;
+  font-size:90px;
+    width:100%;
+    margin: 0 auto 0 auto;
+    text-align: center;
+    padding:40px 0 0 0;
+}
+.heart-wrap__subtitle {
+  color:#d81f26;
+    width:100%;
+    margin: 0 auto 0 auto;
+    text-align: center;
+    padding-bottom:40px;
+    font-size:24px;
+    font-weight: 600;
+}
+.heart-wrap__txt {
+  margin:60px auto;
+}
+.heart-wrap__img {
+  max-width:800px;
+  padding-bottom:60px;
+}
+.heart-wrap__img img {
+  border-radius: 10px;
+  width:100%;
+  filter: drop-shadow(5px 5px 5px #b5b5b5);
+}
+@media screen and (max-width: 1200px) {
+  .about-wrap {
+    gap: 40px;
+}
+  .about-wrap__title {
+    width: 40%;
+}
+  .about-wrap__title p {
+    font-size:42px;
+}
+
+.about-wrap__item {
+  width: 60%;
+}
+.about-wrap__item p {
+  font-size: 16px;
+}
+.voice-wrap__groupright {
+  max-width: 960px;
+  justify-content: center;
+  margin: 0 auto;
+}
+.voice-wrap__groupright__left__item__group {
+  font-size: 24px;
+  padding-left: 7px;
+}
+.voice-wrap__groupright__left__item__num {
+  font-size: 85px;
+}
+.voice-wrap__groupright__right__head {
+  font-size: 105px;
+}
+.voice-wrap__groupright__left__item__num::before {
+  left: 35px;
+}
+.voice-wrap__groupright__left__item__num::after {
+  right: 35px;
+}
+.voice-wrap__groupright__right__grid {
+  --cell-w: 25px;
+  --cell-h: 25px;
+  --gap: 14px;
+}
+.voice-wrap__groupright__right__grid__card__name-enbig p {
+  font-size: 48px;
+  top: -60px;
+  left: 15px;
+  line-height: 0.8;
+}
+.voice-wrap__groupright__right__grid__card__name-jp {
+  padding-left: 20px;
+  padding-top: 15px;
+  font-size: 22px;
+}
+.voice-wrap__groupleft {
+  max-width: 960px;
+  justify-content: center;
+  margin: 30px auto;
+}
+.voice-wrap__groupleft__left__item__group {
+  font-size: 24px;
+  padding-left: 7px;
+}
+.voice-wrap__groupleft__left__item__num {
+  font-size: 85px;
+}
+.voice-wrap__groupleft__right__head {
+  font-size: 105px;
+}
+.voice-wrap__groupleft__left__item__num::before {
+  left: 35px;
+}
+.voice-wrap__groupleft__left__item__num::after {
+  right: 35px;
+}
+.voice-wrap__groupleft__right__grid {
+  --cell-w: 25px;
+  --cell-h: 25px;
+  --gap: 14px;
+}
+.voice-wrap__groupleft__right__grid__card__name-enbig p {
+  font-size: 48px;
+  top: -60px;
+  left: 15px;
+  line-height: 0.8;
+}
+.voice-wrap__groupleft__right__grid__card__name-jp {
+  padding-left: 20px;
+  padding-top: 15px;
+  font-size: 22px;
+}
+section.movie {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  height: 60vh;
+  overflow: hidden;
+}
+}
+@media screen and (max-width: 1024px) {
+  .about-wrap {
+    flex-direction: column;
+    align-items: center;
+    background-image: none;
+    padding:0;
+    background-color: #000;
+    text-align: center;
+}
+.about-wrap__title {
+  width: 100%;
+  justify-content: center;
+  padding:80px 0;
+  background-image: url(../img/aboutbg.png);
+  background-size: cover;
+  background-position: bottom;
+}
+.about-wrap__item {
+  width: 90%;
+}
+.about-wrap__item p {
+  padding-bottom:60px;
+  font-size:20px;
+}
+.voice-wrap__groupright {
+  max-width: 700px;
+  justify-content: center;
+  margin: 0 auto;
+  gap:10px;
+}
+.voice-wrap__groupright__right__grid__card__name-en p {
+  font-size: 36px;
+  top: -45px;
+  left: 10px;
+}
+.voice-wrap__groupright__right__grid__card__name-jp {
+  padding-left: 20px;
+  padding-top: 5px;
+  font-size: 22px;
+}
+.voice-wrap__groupright__right__grid {
+  --cell-w: 18px;
+  --cell-h: 18px;
+  --gap: 14px;
+}
+.voice-wrap__groupleft {
+  max-width: 700px;
+  justify-content: center;
+  margin: 30px auto;
+}
+.voice-wrap__groupleft__right__grid__card__name-enbig p {
+  font-size: 36px;
+  top: -45px;
+  left: 10px;
+}
+.voice-wrap__groupleft__right__grid__card__name-jp {
+  padding-left: 20px;
+  padding-top: 5px;
+  font-size: 22px;
+}
+.voice-wrap__groupleft__right__grid {
+  --cell-w: 18px;
+  --cell-h: 18px;
+  --gap: 14px;
+}
+.voice-wrap__groupleft__right__head{
+  font-size: 96px;
+}
+.voice-wrap__title h1 {
+  font-size: 300px;
+}
+.voice-wrap__groupright__left__item__group {
+  font-size: 22px;
+  letter-spacing: 7px;
+}
+.voice-wrap__groupleft__left__item__group {
+  font-size: 22px;
+  letter-spacing: 7px;
+}
+.heart-wrap  {
+  max-width: 90%;
+}
+.black .num {
+  font-size:240px;
+  padding-top: 20px;
+}
+}
+@media screen and (max-width: 760px) {
+  .top-grid {
+    margin-top: 80px;
+    --cols: 12;
+    --rows: 20;
+    --gap: 0;
+    --cell: calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols));
+    display: grid;
+    grid-template-columns: repeat(var(--cols), var(--cell));
+    grid-template-rows: repeat(var(--rows), var(--cell));
+    gap: var(--gap);
+}
+.left1 { 
+  grid-column: 1 / span 2;
+  grid-row: 1 / span 2; 
+}
+.left2 { 
+  grid-column: 3 / span 2; 
+  grid-row: 1 / span 2; 
+}
+.left3 { 
+  grid-column: 5 / span 2; 
+  grid-row: 1 / span 2; 
+}
+.top1 { 
+  grid-column: 1 / span 2; 
+  grid-row: 3 / span 2; 
+}
+.top2 { 
+  grid-column: 3 / span 2; 
+  grid-row: 3 / span 2; 
+}
+.top3 { 
+  grid-column: 5 / span 2; 
+  grid-row: 3 / span 2; 
+}
+.top4 { 
+  display:none;
+}
+.red{
+    grid-column: 1 / span 3; 
+    grid-row: 5 / span 4;
+    background:#d81f26; color:#fff;
+    display:grid; 
+    flex-direction:column; 
+    justify-content:center;
+}
+.black{
+  aspect-ratio: 1 /1;
+    grid-column: 4 / span 3; 
+    grid-row: 5 / span 4;
+    background:#000; color:#fff;
+    display:grid; 
+    flex-direction:column; 
+    justify-content:center;
+}
+.right1{ 
+    grid-column: 1 / span 2; 
+    grid-row: 9 / span 2; 
+}
+.right2{ 
+    grid-column: 3 / span 2; 
+    grid-row: 9 / span 2; 
+}
+.right3 {
+  grid-column: 5 / span 2; 
+  grid-row: 9 / span 2; 
+}
+.voice-wrap__groupright {
+  width: 100%;
+  justify-content: center;
+  margin: 0 auto;
+  gap: 10px;
+}
+.voice-wrap__groupright__right__grid {
+  --cols:4;
+  --rows: 14;
+  --cell-w: 120px;
+  --cell-h: 80px;
+  --gap: 5px;                /* 好みで */
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--cell-w));
+  grid-template-rows:    repeat(var(--rows), var(--cell-h));
+  gap: var(--gap);
+  justify-content: start;     /* 左寄せ。中央にしたいなら center */
+  align-content: start;
+}
+.voice-wrap__groupright {
+  width: 100%;
+  justify-content: right;
+  gap: 40px;
+}
+.voice-wrap__groupright__right__grid__card-big{
+  display:flex;
+  position:relative;
+  width: 100%;
+  height: 100%;
+  grid-column: 1 / span 4; 
+  grid-row: 1 / span 4; 
+  overflow: hidden;
+  background: #000;
+  box-sizing: border-box;
+}
+.voice-wrap__groupright__right__grid__card-big img {
+  width: 50%;
+  height:100%;
+  object-fit: cover;
+}
+.voice-wrap__groupright__right__grid__card-small1{
+  grid-column: 1 / span 2;
+  grid-row: 5 / span 5; 
+  position:relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  box-sizing: border-box;
+}
+.voice-wrap__groupright__right__grid__card-small2{
+  grid-column: 3 / span 2; 
+  grid-row: 5 / span 5; 
+  position:relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  box-sizing: border-box;
+}
+.voice-wrap__groupright__right__grid__card-small3{
+  grid-column: 1 / span 2; 
+  grid-row: 10 / span 5; 
+  position:relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  box-sizing: border-box;
+}
+.voice-wrap__groupright__right__grid__card-small4{
+  grid-column: 3 / span 2; 
+  grid-row: 10 / span 5; 
+  position:relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  box-sizing: border-box;
+}
+.voice-wrap__groupright__right__grid__card__name {
+  width:50%;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+.voice-wrap__groupright__right__grid__card__name-enbig {
+  position: static;
+}
+.voice-wrap__groupright__right__grid__card__name-enbig p {
+  font-size: 45px;
+  position: static;
+  line-height: 1;
+  padding-left: 20px;
+  padding-top: 5px;
+}
+.voice-wrap__groupright__right__grid__card-small1 img, 
+.voice-wrap__groupright__right__grid__card-small2 img, 
+.voice-wrap__groupright__right__grid__card-small3 img, 
+.voice-wrap__groupright__right__grid__card-small4 img {
+  width: 100%;
+  height: 60%;
+  object-fit: cover;
+}
+.voice-wrap__groupright__right__head {
+  font-size:clamp(2.625rem, 1.6125rem + 4.5vw, 3.75rem);
+}
+.voice-wrap__groupleft {
+  flex-direction:unset;
+}
+.voice-wrap__groupleft__right__head {
+  text-align: left;
+}
+.voice-wrap__groupleft {
+  width: 100%;
+  justify-content: center;
+  margin: 0 auto;
+  gap: 10px;
+}
+.voice-wrap__groupleft__left__item__num {
+  font-size: 65px;
+}
+.voice-wrap__groupleft__right__grid {
+  --cols:4;
+  --rows: 14;
+  --cell-w: 120px;
+  --cell-h: 80px;
+  --gap: 5px;                /* 好みで */
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--cell-w));
+  grid-template-rows:    repeat(var(--rows), var(--cell-h));
+  gap: var(--gap);
+  justify-content: start;     /* 左寄せ。中央にしたいなら center */
+  align-content: start;
+}
+.voice-wrap__groupleft {
+  width: 100%;
+  justify-content: right;
+  gap: 10px;
+}
+.voice-wrap__groupleft__right__grid__card-big{
+  display:flex;
+  position:relative;
+  width: 100%;
+  height: 100%;
+  grid-column: 1 / span 4; 
+  grid-row: 1 / span 4; 
+  overflow: hidden;
+  background: #000;
+  box-sizing: border-box;
+}
+.voice-wrap__groupleft__right__grid__card-big img {
+  width: 50%;
+  height:100%;
+  object-fit: cover;
+}
+.voice-wrap__groupleft__right__grid__card-small1{
+  grid-column: 1 / span 2;
+  grid-row: 5 / span 5; 
+  position:relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  box-sizing: border-box;
+}
+.voice-wrap__groupleft__right__grid__card-small2{
+  grid-column: 3 / span 2; 
+  grid-row: 5 / span 5; 
+  position:relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  box-sizing: border-box;
+}
+.voice-wrap__groupleft__right__grid__card-small3{
+  grid-column: 1 / span 2; 
+  grid-row: 10 / span 5; 
+  position:relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  box-sizing: border-box;
+}
+.voice-wrap__groupleft__right__grid__card-small4{
+  grid-column: 3 / span 2; 
+  grid-row: 10 / span 5; 
+  position:relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  box-sizing: border-box;
+}
+.voice-wrap__groupleft__right__grid__card__name {
+  width:50%;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+
+}
+.voice-wrap__groupleft__right__grid__card__name-enbig {
+  position: static;
+}
+.voice-wrap__groupleft__right__grid__card__name-enbig p {
+  font-size: 45px;
+  position: static;
+  line-height: 1;
+  padding-left: 20px;
+  padding-top: 5px;
+}
+.voice-wrap__groupleft__right__grid__card-small1 img, 
+.voice-wrap__groupleft__right__grid__card-small2 img, 
+.voice-wrap__groupleft__right__grid__card-small3 img, 
+.voice-wrap__groupleft__right__grid__card-small4 img {
+  width: 100%;
+  height: 60%;
+  object-fit: cover;
+}
+.voice-wrap__groupleft__right__head {
+  font-size:clamp(2.625rem, 1.6125rem + 4.5vw, 3.75rem);
+}
+.voice-wrap__groupleft__left__item__num::before {
+  content: "";
+  position: absolute;
+  left: 36px;
+  bottom: -14px;
+  border-top: 15px solid transparent;
+  border-right: 50px solid #d81f26;
+  border-bottom: 15px solid transparent;
+  z-index: -1;
+}
+.voice-wrap__groupleft__left__item__num::after {
+  content: "";
+  position: absolute;
+  right: 36px;
+  bottom: -14px;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  border-left: 50px solid #d81f26;
+  z-index: -1;
+}
+.voice-wrap__groupleft__left {
+  position: relative;
+  margin: 0 auto;
+  width:30%;
+}
+.voice-wrap__groupleft__left__item__group {
+  width:100%;
+}
+}
