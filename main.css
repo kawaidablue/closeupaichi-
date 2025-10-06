@@ -1,0 +1,284 @@
+@charset "UTF-8";
+#toggle {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0); /* 視覚的に非表示だがラベルで操作できる */
+    white-space: nowrap;
+  }
+html, body {
+    overflow-x: hidden;
+}
+html {
+    font-size:100%;
+}
+body {
+    font-family: "Noto Sans JP", sans-serif;
+    line-height: 1.5;
+    letter-spacing: 1px;
+    word-break: break-all;
+    background-color:rgb(100, 99, 99);
+    color:#fff;
+}
+.en {
+    font-family: "Bebas Neue", sans-serif;
+}
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width:auto;
+    z-index: 10000;
+  }
+.header-wrap {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+}
+.header-wrap__left {
+    flex: 0 0 20%; 
+    background:#000;
+}
+.header-wrap__left__logo {
+    width:100%;
+    margin: 0 auto;
+    justify-content: center;
+    text-align: center;
+}
+.header-wrap__left__logo a img{
+    display:block;
+    width:200px;
+    height:auto;
+    margin: 0 auto;
+}
+.header-wrap__right {
+    flex: 1 1 auto; 
+    background:#fff; 
+    padding: 25px 0;
+    display: flex;
+    justify-content: space-between;
+    height:100%;
+    background-color: #fff;
+}
+.header-wrap__right__head {
+    display: flex;
+    align-items: center;
+    padding-left:40px;
+    gap:10px;
+    width:50%;
+}
+.header-wrap__right__head__en{
+    font-size:20px;
+    color:#000;
+    margin:0;
+}
+.header-wrap__right__head__ja {
+    color:#666666;
+    font-size: 14px;
+    margin:0;
+}
+.header-wrap__nav {
+    width:35%;
+    padding-right:40px;
+}
+.header-wrap__nav__list {
+    display: inline-block;
+    width:100%;
+    display:flex;
+    justify-content: space-between;
+}
+:root { --accent: #e6002d; }
+.header-wrap__nav__list__item a {
+    font-weight:bold;
+    position: relative;
+    display: inline-block;
+    color: #333333;
+    text-decoration: none;
+    padding-bottom: 4px;                 
+    background: linear-gradient(var(--accent), var(--accent))
+                bottom left / 0 3px no-repeat; 
+    transition: background-size .40s ease;
+}
+.header-wrap__nav__list__item a:hover,
+.header-wrap__nav__list__item a:focus-visible {
+background-size: 100% 3px;          
+}
+.footer-wrap {
+    background-color: #000;
+    color:#fff;
+    padding:60px 0;
+    text-align: center;
+}
+.footer-wrap__logo__small {
+    font-size:14px;
+    margin:-10px;
+}
+.footer-wrap__logo__big {
+    font-family: "Bebas Neue", sans-serif;
+    font-size:50px;
+}
+.footer-wrap__logo__big span {
+    color:red;
+}
+.footer-wrap__copy {
+    font-size:12px;
+    margin-top:40px;
+}
+@media screen and (max-width: 1200px) {
+.header-wrap__left__logo a img {
+    display: block;
+    width: 180px;
+height: auto;
+margin: 0 auto; }
+.header-wrap__nav {
+    width:40%;
+    padding-right:40px;
+}
+}
+@media screen and (max-width: 1024px) {
+.header-wrap__nav { --accent: #fff; }
+#toggle { display: none; }
+.header-wrap__right__head {
+    width: 70%;
+}
+.hamburger {
+    position: fixed;      /* 位置を固定して操作しやすく */
+    top: 15px;            /* ヘッダー内の見た目に合わせて調整 */
+    right: 2%;
+    height: 100px;
+    z-index: 110;         /* クリックを妨げないよう最前面 */
+}
+.hamburger div {
+position: relative;
+width: 3em;
+height: 3px;
+border-radius: 3px;
+background-color: #000;
+margin-top: 10px;
+transition: all 0.3s ease-in-out;
+}
+.header-wrap__nav {
+            position: fixed;
+            left: 0;
+            top:80px;
+            background-color: rgb(255, 0, 0);
+            width: 100%;
+            overflow: hidden;
+            transition: transform .3s ease, opacity .3s ease;
+            transform: scale(0);
+            transform-origin: top center;
+            opacity: 0;
+            z-index: 90; 
+            height:100%;    
+
+            display: flex;
+            justify-content: center;
+}
+.header-wrap__nav__list {
+display: flex;
+height:40%;
+margin:auto 0;
+position: relative;
+overflow-y: auto;
+flex-direction: column;
+justify-content: space-around;
+}
+
+.header-wrap__nav__list__item{
+color:#fff;
+text-align: left;
+margin-left: 25%;
+
+}
+.header-wrap__nav__list__item a {
+color:#fff;
+transition: background-size .40s 
+ease;
+font-size:20px;
+}
+
+.header-wrap__nav__list__item a:before {
+content: 'ー';
+height: 0;
+position: absolute;
+background-color: #fff;
+left: -1.5em;
+transition: all 0.2s ease-in-out;
+}
+.header-wrap__nav__list__item a:hover {
+color: #ffffff; 
+}
+#toggle:checked + .hamburger .top-bun {
+transform: rotate(-45deg);
+margin-top: 25px;
+}
+#toggle:checked + .hamburger .bottom-bun {
+opacity: 0;
+transform: rotate(45deg);
+}
+#toggle:checked + .hamburger .meat {
+transform: rotate(45deg);
+margin-top: -2px;
+}
+#toggle:checked + .hamburger + .header-wrap__nav {
+            transform: scale(1);
+            opacity: 1;}
+
+}
+@media screen and (max-width: 700px) {
+    .header-wrap__right__head {
+        display: flex;
+        align-items: center;
+        padding-left: 0;
+        gap: 0;
+    }
+    .header-wrap__right__head__ja {
+        display: none;
+    }
+    .header-wrap__right__head__en {
+        text-align: center;
+        width: 100%;
+        font-size:clamp(1.125rem, 0.4632rem + 2.9412vw, 1.75rem);
+    }
+}
+@media screen and (max-width: 500px) {
+    .header-wrap__left__logo a img {
+        display: block;
+        width: 125px;
+        height: auto;
+        margin: auto 0;
+
+    }
+    .hamburger {
+        position: fixed;
+        top: 6px;
+        right: 2%;
+        height: 80px;
+        z-index: 110;
+    }
+    .hamburger div {
+        position: relative;
+        width: 2.5em;
+        height: 2px;
+        border-radius: 3px;
+        background-color: #000;
+        margin-top: 10px;
+        transition: all 0.3s 
+        ease-in-out;
+    }
+    .header-wrap__right {
+        flex: 1 1 auto;
+        background: #fff;
+        padding: 15px 0;
+        display: flex;
+        justify-content: space-between;
+        height: 100%;
+        background-color: #fff;
+    }
+}
